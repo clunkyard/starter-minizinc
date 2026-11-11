@@ -1,18 +1,18 @@
 {
-  "version": "v2.0.0-kit.1",
+  "version": "v2.0.0-kit.2",
   "sdkVersion": "2.0.0",
   "language": "minizinc",
   "portable": false,
   "engine": {
-    "file": "clunkyard-engine-v2.0.0-kit.1.tar.gz",
-    "url": "https://github.com/clunkyard/game-kit/releases/download/v2.0.0-kit.1/clunkyard-engine-v2.0.0-kit.1.tar.gz",
+    "file": "clunkyard-engine-v2.0.0-kit.2.tar.gz",
+    "url": "https://github.com/clunkyard/game-kit/releases/download/v2.0.0-kit.2/clunkyard-engine-v2.0.0-kit.2.tar.gz",
     "bytes": 7071301,
     "sha256": "0b9cfa6958a952c32388602821ec4275e61400255f91b212f9c2a9220f8a0d86",
     "expandedBytes": 33794538
   },
   "sdk": {
-    "file": "clunkyard-sdk-minizinc-linux-x64-v2.0.0-kit.1.tar.gz",
-    "url": "https://github.com/clunkyard/game-kit/releases/download/v2.0.0-kit.1/clunkyard-sdk-minizinc-linux-x64-v2.0.0-kit.1.tar.gz",
+    "file": "clunkyard-sdk-minizinc-linux-x64-v2.0.0-kit.2.tar.gz",
+    "url": "https://github.com/clunkyard/game-kit/releases/download/v2.0.0-kit.2/clunkyard-sdk-minizinc-linux-x64-v2.0.0-kit.2.tar.gz",
     "bytes": 763986,
     "sha256": "24e92e4b867113ee6f8ccb4e509305c603370e0bd7d4bea418c627a0543ad3f6",
     "expandedBytes": 3847156
@@ -22,6 +22,12 @@
     "node",
     "make",
     "python3",
-    "minizinc"
-  ]
+    "minizinc",
+    "fzn-gecode"
+  ],
+  "requirements": {
+    "notes": [
+      "Install MiniZinc with the Gecode solver and fzn-gecode on PATH. Python 3 hosts the core; both minizinc and fzn-gecode execute locally."
+    ]
+  }
 }
