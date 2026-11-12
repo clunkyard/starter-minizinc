@@ -127,24 +127,6 @@ class Starter(mz.Planner):
             climb = angles.elevation_to(me.position, zone.center) if zone.shape == "sphere" else 0
             self.drive.set(throttle=0.8, turn=self.steer(angles.bearing_to(me.position, zone.center) - me.heading, "home"),
                            pitch_turn=self.steer(climb - me.pitch, "home"))
-        calibrate(self)
-
-
-# ---- The arena's rate calibration: safe to delete, with the line above ----
-# Only the calibration sends calibration.work; it times this language on the
-# same work as every other. The kernel is xorshift-sqrt v1: work rounds of a
-# 64-bit xorshift and a square-root sum, reported as WORK.
-def calibrate(robot):
-    work = robot.raw.number("state.calibration.work")
-    if not work or work < 1:
-        return
-    mask, x, total = 0xFFFFFFFFFFFFFFFF, 88172645463325252 ^ robot.clock.tick, 0.0
-    for _ in range(int(work)):
-        x ^= (x << 13) & mask
-        x ^= x >> 7
-        x ^= (x << 17) & mask
-        total += math.sqrt(x >> 11)
-    robot.status.set("WORK", (math.floor(total) + (x >> 40)) % 1000000)
 
 
 if __name__ == "__main__":
