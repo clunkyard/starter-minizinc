@@ -27,6 +27,14 @@ float: aim_tolerance = 3.0;         % degrees between the turret and the shot
 float: reserve = 10.0;              % battery kept back after a shot
 float: low_battery = battery_capacity / 4;
 float: keep_out = 60.0;             % distance kept from the storm's edge and the zone's
+% A simple dodge when a shot is heard, off the line of fire for half a
+% second: the throttle and turn with direct control, the throttle and
+% strafe with forces.
+int: dodge_ticks = 10;
+float: dodge_throttle = 1.0;
+float: dodge_turn = 1.0;
+float: dodge_force_throttle = 0.5;
+float: dodge_strafe = 1.0;
 
 output ["{\"steer\":", showJSON(steer), ",\"home\":", showJSON(home),
         ",\"range_step\":", showJSON(range_step), ",\"power\":", showJSON(power), ",\"cue_arc\":", showJSON(cue_arc),
@@ -34,4 +42,6 @@ output ["{\"steer\":", showJSON(steer), ",\"home\":", showJSON(home),
         ",\"track_arc\":", showJSON(track_arc), ",\"search_arc\":", showJSON(search_arc),
         ",\"search_turn\":", showJSON(search_turn), ",\"aim_tolerance\":", showJSON(aim_tolerance),
         ",\"reserve\":", showJSON(reserve), ",\"low_battery\":", showJSON(low_battery),
-        ",\"keep_out\":", showJSON(keep_out), "}\n"];
+        ",\"keep_out\":", showJSON(keep_out), ",\"dodge_ticks\":", showJSON(dodge_ticks),
+        ",\"dodge_throttle\":", showJSON(dodge_throttle), ",\"dodge_turn\":", showJSON(dodge_turn),
+        ",\"dodge_force_throttle\":", showJSON(dodge_force_throttle), ",\"dodge_strafe\":", showJSON(dodge_strafe), "}\n"];

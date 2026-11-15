@@ -22,7 +22,8 @@
 # clock: tick seconds remaining_ticks
 # arena: size gravity terrain_kind ground_height(x y)
 # me: health position velocity heading pitch roll angular_velocity
-#   attitude grounded altitude applied
+#   attitude grounded altitude applied hull_mounts to_mount(heading pitch)
+#   from_mount(heading pitch) mount_toward(point)
 # battery: charge capacity regen sustainable_drive compute
 #   drive_cost(fraction)
 # drive: hover_lift
@@ -44,7 +45,8 @@
 # score: me best armour
 # angles: normalize(degrees) angle_diff(target current)
 #   bearing_to(from to) elevation_to(from to) direction(heading pitch)
-#   distance(a b) clamp(value low high)
+#   distance(a b) to_chassis(heading pitch attitude)
+#   from_chassis(heading pitch attitude) clamp(value low high)
 # raw: number(path) text(path) has(path) flag(path) count(path) line()
 # Controls: drive.set(throttle turn pitch_turn)
 #   drive.forces(thrust strafe lift yaw_torque pitch_torque roll_torque brake)
@@ -70,6 +72,7 @@ class Starter(mz.Planner):
     def on_start(self):
         super().on_start()  # solves the model
         self.free = self.match.is_3d and self.arena.gravity.z == 0  # flying free, robots may be above or below
+        self.dodges, self.dodge_end = 0, 0  # dodges taken, and the tick the current one ends
 
     def steer(self, off, table="steer"):
         """The planned turn for an angle off, full at 45 degrees (30 for home)."""
@@ -88,6 +91,7 @@ class Starter(mz.Planner):
             # The planned power for this range, aimed where the target will
             # be, lobbed under gravity.
             power = plan.at("power", target.range, step=plan.range_step)
+            # gun.lead is the intercept if the target holds course.
             aim = gun.lead(target, power)
             heading, pitch = (aim.heading, aim.pitch) if aim else (target.bearing, target.elevation)
             gun.aim(heading, pitch)
@@ -114,6 +118,20 @@ class Starter(mz.Planner):
             pitch = ((self.clock.tick // 10) % 3 - 1) * 35 if self.free else 0
             scanner.set(heading=(scanner.last.heading + 36) % 360, arc=plan.search_arc, pitch=pitch)
             self.status.set("SEARCH")
+        # A simple dodge: vary it, or predict the shooter.
+        tick = self.clock.tick
+        if tick >= self.dodge_end and any(cue.source == "muzzle" for cue in self.sensors.cues):
+            self.dodges += 1
+            self.dodge_end = tick + plan.dodge_ticks
+        if tick < self.dodge_end:
+            # Off the line of fire: left, then right next time (turn is positive left, strafe positive right).
+            left = self.dodges % 2 == 1
+            if self.match.control == "forces":
+                self.drive.set(throttle=plan.dodge_force_throttle)
+                self.drive.forces(strafe=-plan.dodge_strafe if left else plan.dodge_strafe)
+            else:
+                self.drive.set(throttle=plan.dodge_throttle, turn=plan.dodge_turn if left else -plan.dodge_turn)
+            self.status.set("dodge:left" if left else "dodge:right", self.dodges)
         # Low battery: drive gently so the shots can still be paid for.
         if self.battery.charge < plan.low_battery:
             self.drive.set(throttle=self.drive.get("throttle") * 0.5)
