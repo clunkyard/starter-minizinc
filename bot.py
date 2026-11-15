@@ -34,7 +34,7 @@
 # scanner: last proximity_range reach(arc) arc_for_reach(range) is_on
 # sensors: contacts nearest cues contact(slot) position_of(contact)
 # tracker: cue nearest_bearing_rate velocity(slot) position(slot)
-#   last_seen(slot)
+#   history(slot) last_seen(slot)
 # nav: zone zone.margin(point) zone.contains(point margin)
 #   zone.distance_from(point) storm storm.margin(point)
 #   storm.contains(point margin) storm.distance_from(point) hill
