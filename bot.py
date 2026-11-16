@@ -52,7 +52,7 @@
 #   drive.forces(thrust strafe lift yaw_torque pitch_torque roll_torque brake)
 #   gun.aim(heading pitch) gun.fire(power) scanner.set(heading arc pitch)
 #   scanner.power(on) tracker.configure(smoothing forget_ticks cue_ticks)
-#   status.set(text value) raw.extra(json)
+#   status.set(text value) debug.log(line) raw.extra(json)
 # Every control argument is optional; a second call keeps what the first
 # set. Absent facts are your language's none. Names are snake_case here;
 # your language cases them its own way. Angles are degrees from the +x
