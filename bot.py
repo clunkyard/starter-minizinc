@@ -22,8 +22,8 @@
 # clock: tick seconds remaining_ticks
 # arena: size gravity terrain_kind ground_height(x y)
 # me: health position velocity heading pitch roll angular_velocity
-#   attitude grounded altitude applied hull_mounts to_mount(heading pitch)
-#   from_mount(heading pitch) mount_toward(point)
+#   attitude grounded altitude wall_contact applied hull_mounts
+#   to_mount(heading pitch) from_mount(heading pitch) mount_toward(point)
 # battery: charge capacity regen sustainable_drive compute
 #   drive_cost(fraction)
 # drive: hover_lift
@@ -40,7 +40,7 @@
 #   zone.distance_from(point) storm storm.margin(point)
 #   storm.contains(point margin) storm.distance_from(point) hill
 #   hill.margin(point) hill.contains(point margin)
-#   hill.distance_from(point) pickups nearest_pickup(kind)
+#   hill.distance_from(point) wall_margin() pickups nearest_pickup(kind)
 #   field_distance(a b)
 # score: me best armour
 # angles: normalize(degrees) angle_diff(target current)
