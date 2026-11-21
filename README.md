@@ -1,6 +1,13 @@
 # A Clunkyard robot in minizinc
 
-Edit `bot.py`, build, play a local match and inspect its replay. Install [Node 20+ with npm](https://nodejs.org/en/download) and your language's compiler or interpreter.
+Edit `bot.py`, build, play a local match and inspect its replay. With Docker, nothing else is needed:
+
+```sh
+docker run --rm -v "$PWD":/bot ghcr.io/clunkyard/toolchain/minizinc build
+docker run --rm -v "$PWD":/bot ghcr.io/clunkyard/toolchain/minizinc run
+```
+
+To build without Docker, install [Node 24 with npm](https://nodejs.org/en/download) and your language's compiler or interpreter.
 See the [supported platforms and toolchain installers](https://clunkyard.com/sdk/player-kit#supported-platforms).
 
 ```sh
@@ -29,10 +36,10 @@ Keep a baseline commit. Repeat several seeds and rulesets; compare contacts, bat
 
 ## Play online
 
-Create or copy a bot at [clunkyard.com](https://clunkyard.com). To work with its private Git repository, install `npm install --global @clunkyard/git`, run `clunkyard-git login` and follow the [private Git guide](https://clunkyard.com/sdk/private-git). Copy your robot files into the private clone, then push to save a revision and start a hosted build.
+Create or copy a bot at [clunkyard.com](https://clunkyard.com). To work on it with Git, run `npx @clunkyard/cli open ROBOT_ID`, which signs in and clones it, and follow the [Git guide](https://clunkyard.com/sdk/private-git). Copy your robot files into the clone, then push to save a revision and start a hosted build.
 
-You can also create your own GitHub repository from this template, connect it in My bots and select the repository/ref for build-on-push. [WebDAV](https://clunkyard.com/manual#local-development) is available for desktop editors. Save browser changes before syncing; resolve any source conflict before publishing.
+You can also create your own GitHub repository from this template, connect it in My bots and select the repository/ref for build-on-push. Save browser changes before syncing; resolve any source conflict before publishing.
 
-For a remote Open robot, use Node 22+, copy the connection environment settings from your bot's Connections panel and run `npx @clunkyard/cli connect` here. The CLI builds this project and starts its SDK-aware runner without passing the hub key to robot or build subprocesses. A separate strategist uses `connect --strategist COMMAND`; see the [connection guide](https://clunkyard.com/sdk/player-kit#connect-code-running-on-your-computer).
+For a remote Open robot, copy the connection environment settings from your bot's Connections panel and run `npx @clunkyard/cli connect` here. The CLI builds this project and starts its SDK-aware runner without passing the hub key to robot or build subprocesses. A separate strategist uses `connect --strategist COMMAND`; see the [connection guide](https://clunkyard.com/sdk/player-kit#connect-code-running-on-your-computer).
 
 [API and adapters](https://clunkyard.com/sdk) · [Local trials](https://clunkyard.com/sdk/local-trials) · [Game manual](https://clunkyard.com/manual)
